@@ -1,0 +1,139 @@
+.dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.page-header p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin: 4px 0 0;
+}
+
+.header-filters {
+    display: flex;
+    gap: 8px;
+}
+
+.header-filters select,
+.header-filters input {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    outline: none;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 16px;
+}
+
+.chart-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.chart-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: var(--text-primary);
+}
+
+.chart-wrap {
+    width: 100%;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+}
+
+.activity-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.activity-route {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.activity-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.filtered-vehicles {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.filtered-vehicles h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+.vehicle-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.vehicle-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+.chip-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
