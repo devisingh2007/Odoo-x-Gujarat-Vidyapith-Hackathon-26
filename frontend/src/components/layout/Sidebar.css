@@ -202,16 +202,19 @@
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
-        width: 260px;
+        width: 280px;
+        z-index: 1000;
+        height: 100dvh;
+        /* Use dynamic viewport height */
     }
 
     .sidebar.mobile-open {
         transform: translateX(0);
-        box-shadow: 8px 0 40px rgba(0, 0, 0, 0.6);
+        box-shadow: 10px 0 50px rgba(0, 0, 0, 0.7);
     }
 
     .sidebar.collapsed {
-        width: 260px;
+        width: 280px;
     }
 
     .mobile-menu-btn {
@@ -230,9 +233,9 @@
         display: block;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 99;
-        backdrop-filter: blur(2px);
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        backdrop-filter: blur(4px);
     }
 
     .nav-item {

@@ -1,5 +1,6 @@
-import { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
 
+/* eslint-disable react-refresh/only-export-components */
 const AppContext = createContext();
 
 const API_BASE_URL = '/api';
@@ -61,7 +62,7 @@ function appReducer(state, action) {
 export function AppProvider({ children }) {
     const [state, dispatch] = useReducer(appReducer, initialState);
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         if (!state.auth.isAuthenticated) {
             dispatch({ type: 'SET_LOADING', payload: false });
             return;
@@ -99,11 +100,11 @@ export function AppProvider({ children }) {
             console.error('Fetch Error:', err);
             dispatch({ type: 'SET_ERROR', payload: err.message });
         }
-    };
+    }, [state.auth.isAuthenticated, state.auth.token]);
 
     useEffect(() => {
         fetchData();
-    }, [state.auth.isAuthenticated]);
+    }, [fetchData]);
 
     // Helper for API calls with Auth
     const apiCall = async (endpoint, method = 'GET', body = null) => {

@@ -5,6 +5,32 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pi
 import './PageCommon.css';
 import './DashboardPage.css';
 
+const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+        return (
+            <div className="custom-tooltip">
+                <span className="tooltip-title">{label}</span>
+                <div className="tooltip-list">
+                    {payload.map((entry, index) => (
+                        <div key={index} className="tooltip-item">
+                            <div className="tooltip-label-group">
+                                <div className="tooltip-dot" style={{ backgroundColor: entry.color || entry.fill || 'var(--accent)' }} />
+                                <span className="tooltip-label">{entry.name}</span>
+                            </div>
+                            <span className="tooltip-value">
+                                {typeof entry.value === 'number' && entry.name.toLowerCase().includes('revenue') ? `₹${entry.value.toLocaleString()}` :
+                                    typeof entry.value === 'number' && (entry.name.toLowerCase().includes('cost') || entry.name.toLowerCase().includes('profit')) ? `₹${entry.value.toLocaleString()}` :
+                                        entry.value}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+    return null;
+};
+
 export default function AnalyticsPage() {
     const { state } = useApp();
     const { vehicles, trips, expenses, maintenance } = state;
@@ -27,11 +53,11 @@ export default function AnalyticsPage() {
     });
 
     // Expense breakdown by type
-    const COLORS = ['#3b82f6', '#8b5cf6', '#22d3ee', '#10b981', '#f59e0b', '#ef4444'];
+    // Expense breakdown by type
     const expenseByType = [
-        { name: 'Fuel', value: expenses.filter(e => e.type === 'Fuel').reduce((s, e) => s + (e.cost || 0), 0) },
-        { name: 'Maintenance', value: maintenance.reduce((s, m) => s + (m.cost || 0), 0) },
-        { name: 'Tolls & Other', value: expenses.filter(e => e.type !== 'Fuel').reduce((s, e) => s + (e.cost || 0), 0) },
+        { name: 'Fuel', value: expenses.filter(e => e.type === 'Fuel').reduce((s, e) => s + (e.cost || 0), 0), color: '#f59e0b' },
+        { name: 'Maintenance', value: maintenance.reduce((s, m) => s + (m.cost || 0), 0), color: '#3b82f6' },
+        { name: 'Tolls & Other', value: expenses.filter(e => e.type !== 'Fuel').reduce((s, e) => s + (e.cost || 0), 0), color: '#22d3ee' },
     ].filter(d => d.value > 0);
 
     // Cost per km
@@ -70,7 +96,7 @@ export default function AnalyticsPage() {
                     <h1 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}><ChartNoAxesCombined size={22} style={{ color: 'var(--accent)' }} />Analytics & Reports</h1>
                     <p>Data-driven operational insights</p>
                 </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div className="header-actions">
                     <button className="btn-secondary" onClick={() => exportCSV(fuelEfficiency, 'fleet_fuel_efficiency_report.csv')}><Download size={16} /> Fuel Report</button>
                     <button className="btn-secondary" onClick={() => exportCSV(vehicleROI.map(v => ({ Vehicle: v.name, Revenue: v.revenue, Costs: v.costs, ROI: v.roi + '%' })), 'payroll_roi_registry.csv')}><Download size={16} /> ROI Report</button>
                     <button className="btn-primary" onClick={() => exportCSV(
@@ -85,7 +111,7 @@ export default function AnalyticsPage() {
                 </div>
             </div>
 
-            <div className="kpi-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+            <div className="kpi-grid">
                 <KPICard icon={TrendingUp} label="Total Revenue" value={`₹${totalRevenue.toLocaleString()}`} color="green" />
                 <KPICard icon={DollarSign} label="Total Costs" value={`₹${totalCosts.toLocaleString()}`} color="red" />
                 <KPICard icon={Truck} label="Net Profit" value={`₹${(totalRevenue - totalCosts).toLocaleString()}`} color={totalRevenue - totalCosts >= 0 ? 'green' : 'red'} />
@@ -97,11 +123,11 @@ export default function AnalyticsPage() {
                     <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Droplets size={16} style={{ color: '#10b981' }} />Fuel Efficiency (km/L per Vehicle)</h3>
                     <div className="chart-wrap">
                         <ResponsiveContainer width="100%" height={280}>
-                            <BarChart data={fuelEfficiency}>
-                                <XAxis dataKey="name" stroke="#6b7280" fontSize={12} />
-                                <YAxis stroke="#6b7280" fontSize={12} />
-                                <Tooltip contentStyle={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} />
-                                <Bar dataKey="kmPerL" fill="#10b981" radius={[6, 6, 0, 0]} name="km/L" />
+                            <BarChart data={fuelEfficiency} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} dy={10} />
+                                <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
+                                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)', radius: 6 }} />
+                                <Bar dataKey="kmPerL" fill="#10b981" radius={[6, 6, 0, 0]} barSize={35} name="km/L" />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -112,10 +138,20 @@ export default function AnalyticsPage() {
                     <div className="chart-wrap">
                         <ResponsiveContainer width="100%" height={280}>
                             <PieChart>
-                                <Pie data={expenseByType} cx="50%" cy="50%" innerRadius={60} outerRadius={100} dataKey="value" label={({ name, value }) => `${name}: ₹${value.toLocaleString()}`}>
+                                <Pie
+                                    data={expenseByType}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={65}
+                                    outerRadius={105}
+                                    dataKey="value"
+                                    label={({ name, value }) => `${name}: ₹${value.toLocaleString()}`}
+                                    stroke="none"
+                                    paddingAngle={5}
+                                >
                                     {expenseByType.map((entry, i) => <Cell key={i} fill={entry.color} />)}
                                 </Pie>
-                                <Tooltip contentStyle={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} />
+                                <Tooltip content={<CustomTooltip />} />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
@@ -125,11 +161,11 @@ export default function AnalyticsPage() {
                     <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><TrendingUp size={16} style={{ color: '#10b981' }} />Vehicle ROI (%)</h3>
                     <div className="chart-wrap">
                         <ResponsiveContainer width="100%" height={280}>
-                            <BarChart data={vehicleROI}>
-                                <XAxis dataKey="name" stroke="#6b7280" fontSize={12} />
-                                <YAxis stroke="#6b7280" fontSize={12} />
-                                <Tooltip contentStyle={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} />
-                                <Legend />
+                            <BarChart data={vehicleROI} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} dy={10} />
+                                <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
+                                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)', radius: 6 }} />
+                                <Legend verticalAlign="top" height={36} />
                                 <Bar dataKey="revenue" fill="#10b981" radius={[6, 6, 0, 0]} name="Revenue (₹)" />
                                 <Bar dataKey="costs" fill="#ef4444" radius={[6, 6, 0, 0]} name="Costs (₹)" />
                             </BarChart>
@@ -141,11 +177,11 @@ export default function AnalyticsPage() {
                     <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><TrendingDown size={16} style={{ color: '#f59e0b' }} />Cost per Kilometer (₹/km)</h3>
                     <div className="chart-wrap">
                         <ResponsiveContainer width="100%" height={280}>
-                            <BarChart data={costPerKm}>
-                                <XAxis dataKey="name" stroke="#6b7280" fontSize={12} />
-                                <YAxis stroke="#6b7280" fontSize={12} />
-                                <Tooltip contentStyle={{ background: '#1a1a2e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} />
-                                <Bar dataKey="costPerKm" fill="#f59e0b" radius={[6, 6, 0, 0]} name="₹/km" />
+                            <BarChart data={costPerKm} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} dy={10} />
+                                <YAxis stroke="#64748b" fontSize={11} tickLine={false} axisLine={false} />
+                                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)', radius: 6 }} />
+                                <Bar dataKey="costPerKm" fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={35} name="₹/km" />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>

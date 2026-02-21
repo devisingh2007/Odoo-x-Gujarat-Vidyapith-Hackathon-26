@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import DataTable from '../components/ui/DataTable';
 import StatusPill from '../components/ui/StatusPill';
 import Modal from '../components/ui/Modal';
+import CustomSelect from '../components/ui/CustomSelect';
 import { Plus, Edit, Trash2, Power, Truck, Car, Tag, CreditCard, Package, Gauge, MapPin, DollarSign } from 'lucide-react';
 import './PageCommon.css';
 
@@ -98,14 +99,28 @@ export default function VehiclesPage() {
                     </div>
                     <div className="form-row">
                         <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CreditCard size={13} />License Plate</label><input value={form.licensePlate} onChange={e => setForm({ ...form, licensePlate: e.target.value })} placeholder="MH-12-AB-1234" required /></div>
-                        <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Truck size={13} />Type</label><select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}><option>Truck</option><option>Van</option><option>Bike</option></select></div>
+                        <div className="form-group">
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Truck size={13} />Type</label>
+                            <CustomSelect
+                                value={form.type}
+                                onChange={val => setForm({ ...form, type: val })}
+                                options={['Truck', 'Van', 'Bike']}
+                            />
+                        </div>
                     </div>
                     <div className="form-row">
                         <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Package size={13} />Max Capacity (kg)</label><input type="number" value={form.maxCapacity} onChange={e => setForm({ ...form, maxCapacity: e.target.value })} required /></div>
                         <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Gauge size={13} />Odometer (km)</label><input type="number" value={form.odometer} onChange={e => setForm({ ...form, odometer: e.target.value })} required /></div>
                     </div>
                     <div className="form-row">
-                        <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><MapPin size={13} />Region</label><select value={form.region} onChange={e => setForm({ ...form, region: e.target.value })}><option>North</option><option>South</option><option>East</option><option>West</option></select></div>
+                        <div className="form-group">
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><MapPin size={13} />Region</label>
+                            <CustomSelect
+                                value={form.region}
+                                onChange={val => setForm({ ...form, region: val })}
+                                options={['North', 'South', 'East', 'West']}
+                            />
+                        </div>
                         <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><DollarSign size={13} />Acquisition Cost (₹)</label><input type="number" value={form.acquisitionCost} onChange={e => setForm({ ...form, acquisitionCost: e.target.value })} /></div>
                     </div>
                     <div className="form-actions">

@@ -64,7 +64,7 @@ export default function DataTable({ columns, data, onRowClick, searchable = true
                         ) : paged.map((row, i) => (
                             <tr key={row.id || i} onClick={() => onRowClick?.(row)} className={onRowClick ? 'clickable' : ''}>
                                 {columns.map(col => (
-                                    <td key={col.key}>
+                                    <td key={col.key} data-label={col.label}>
                                         {col.render ? col.render(row) : (typeof col.accessor === 'function' ? col.accessor(row) : row[col.accessor])}
                                     </td>
                                 ))}
