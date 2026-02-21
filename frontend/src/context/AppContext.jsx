@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer, useEffect } from 'react';
 
 const AppContext = createContext();
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://odoo-x-gujarat-vidyapith-hackathon-26.onrender.com/api';
 
 const initialState = {
     auth: {
