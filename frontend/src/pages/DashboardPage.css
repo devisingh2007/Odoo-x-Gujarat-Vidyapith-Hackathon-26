@@ -1,0 +1,222 @@
+.dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.page-header p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin: 4px 0 0;
+}
+
+.header-filters {
+    display: flex;
+    gap: 8px;
+}
+
+.header-filters select,
+.header-filters input {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    outline: none;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 16px;
+}
+
+.chart-card {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.chart-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+}
+
+.chart-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: var(--text-primary);
+}
+
+.chart-wrap {
+    width: 100%;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s;
+}
+
+.activity-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateX(4px);
+}
+
+.activity-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.activity-route {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.activity-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.filtered-vehicles {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.filtered-vehicles:hover {
+    transform: translateY(-8px);
+    background: rgba(30, 41, 59, 0.5);
+    border-color: rgba(59, 130, 246, 0.2);
+}
+
+.filtered-vehicles h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+.vehicle-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.vehicle-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+}
+
+.chip-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+    .header-filters {
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .header-filters select,
+    .header-filters input {
+        flex: 1 1 140px;
+        min-width: 0;
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .chart-card {
+        padding: 16px;
+    }
+
+    .filtered-vehicles {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .vehicle-chips {
+        flex-direction: column;
+    }
+
+    .vehicle-chip {
+        width: 100%;
+    }
+}
