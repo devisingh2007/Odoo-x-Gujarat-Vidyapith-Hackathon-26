@@ -18,6 +18,14 @@
   --danger: #ef4444;
 }
 
+/* Mobile responsive adjustments */
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+}
+
+
 *,
 *::before,
 *::after {
