@@ -1,4 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
+// Optimized state management and persistence logic
+
 import { sampleVehicles, sampleDrivers, sampleTrips, sampleMaintenance, sampleExpenses, sampleUsers } from '../data/sampleData';
 
 const AppContext = createContext();
