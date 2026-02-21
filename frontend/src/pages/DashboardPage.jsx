@@ -1,7 +1,7 @@
 import { useApp } from '../context/AppContext';
 import KPICard from '../components/ui/KPICard';
 import StatusPill from '../components/ui/StatusPill';
-import { Truck, AlertTriangle, Gauge, Package, Route, Users, TrendingUp, LayoutDashboard, PieChart, BarChart3, Activity, ArrowRight, MapPin, Filter, CircleDot } from 'lucide-react';
+import { Truck, AlertTriangle, Gauge, Package, Route, Users, TrendingUp, LayoutDashboard, PieChart as PieChartIcon, BarChart3, Activity, ArrowRight, MapPin, Filter, CircleDot } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 import { useState } from 'react';
 import './DashboardPage.css';
@@ -91,7 +91,7 @@ export default function DashboardPage() {
 
             <div className="dashboard-grid">
                 <div className="chart-card">
-                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><PieChart size={16} style={{ color: 'var(--accent)' }} />Fleet Status Distribution</h3>
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><PieChartIcon size={16} style={{ color: 'var(--accent)' }} />Fleet Status Distribution</h3>
                     <div className="chart-wrap">
                         <ResponsiveContainer width="100%" height={250}>
                             <PieChart>

@@ -1,6 +1,6 @@
 import { useApp } from '../context/AppContext';
 import KPICard from '../components/ui/KPICard';
-import { Fuel, TrendingUp, DollarSign, Truck, Download, ChartNoAxesCombined, Droplets, PieChart, TrendingDown, BarChart3 } from 'lucide-react';
+import { Fuel, TrendingUp, DollarSign, Truck, Download, ChartNoAxesCombined, Droplets, PieChart as PieChartIcon, TrendingDown, BarChart3 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
 import './PageCommon.css';
 import './DashboardPage.css';
@@ -108,7 +108,7 @@ export default function AnalyticsPage() {
                 </div>
 
                 <div className="chart-card">
-                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><PieChart size={16} style={{ color: 'var(--accent)' }} />Expense Breakdown</h3>
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><PieChartIcon size={16} style={{ color: 'var(--accent)' }} />Expense Breakdown</h3>
                     <div className="chart-wrap">
                         <ResponsiveContainer width="100%" height={280}>
                             <PieChart>
