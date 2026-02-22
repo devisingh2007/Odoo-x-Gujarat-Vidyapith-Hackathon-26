@@ -3,6 +3,8 @@ import { useApp } from '../context/AppContext';
 import DataTable from '../components/ui/DataTable';
 import StatusPill from '../components/ui/StatusPill';
 import Modal from '../components/ui/Modal';
+import CustomSelect from '../components/ui/CustomSelect';
+import KPICard from '../components/ui/KPICard';
 import { Plus, Play, CheckCircle, XCircle, Route, FileText, Zap, ChevronsRight, Truck, User, MapPin, Weight, DollarSign, Milestone } from 'lucide-react';
 import './PageCommon.css';
 
@@ -155,17 +157,21 @@ export default function TripsPage() {
                     <div className="form-row">
                         <div className="form-group">
                             <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Truck size={13} />Vehicle (Available)</label>
-                            <select value={form.vehicleId} onChange={e => setForm({ ...form, vehicleId: e.target.value })} required>
-                                <option value="">Select vehicle...</option>
-                                {availableVehicles.map(v => <option key={v._id} value={v._id}>{v.name} — {v.maxCapacity}kg max</option>)}
-                            </select>
+                            <CustomSelect
+                                value={form.vehicleId}
+                                onChange={val => setForm({ ...form, vehicleId: val })}
+                                options={availableVehicles.map(v => ({ value: v._id, label: `${v.name} — ${v.maxCapacity}kg max` }))}
+                                placeholder="Select vehicle..."
+                            />
                         </div>
                         <div className="form-group">
                             <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><User size={13} />Driver (On Duty)</label>
-                            <select value={form.driverId} onChange={e => setForm({ ...form, driverId: e.target.value })} required>
-                                <option value="">Select driver...</option>
-                                {availableDrivers.map(d => <option key={d._id} value={d._id}>{d.name} — {d.licenseCategories.join(', ')}</option>)}
-                            </select>
+                            <CustomSelect
+                                value={form.driverId}
+                                onChange={val => setForm({ ...form, driverId: val })}
+                                options={availableDrivers.map(d => ({ value: d._id, label: `${d.name} — ${d.licenseCategories.join(', ')}` }))}
+                                placeholder="Select driver..."
+                            />
                         </div>
                     </div>
                     <div className="form-row">

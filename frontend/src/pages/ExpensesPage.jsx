@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import DataTable from '../components/ui/DataTable';
 import Modal from '../components/ui/Modal';
+import CustomSelect from '../components/ui/CustomSelect';
 import KPICard from '../components/ui/KPICard';
 import { Plus, Trash2, Fuel, DollarSign, TrendingUp, Receipt, Car, Tag, Droplets, CalendarDays, Route, BarChart3 } from 'lucide-react';
 import './PageCommon.css';
@@ -108,16 +109,20 @@ export default function ExpensesPage() {
                     <div className="form-row">
                         <div className="form-group">
                             <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Car size={13} />Vehicle</label>
-                            <select value={form.vehicleId} onChange={e => setForm({ ...form, vehicleId: e.target.value })} required>
-                                <option value="">Select...</option>
-                                {vehicles.map(v => <option key={v._id} value={v._id}>{v.name}</option>)}
-                            </select>
+                            <CustomSelect
+                                value={form.vehicleId}
+                                onChange={val => setForm({ ...form, vehicleId: val })}
+                                options={vehicles.map(v => ({ value: v._id, label: v.name }))}
+                                placeholder="Select..."
+                            />
                         </div>
                         <div className="form-group">
                             <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Tag size={13} />Type</label>
-                            <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
-                                <option>Fuel</option><option>Toll</option><option>Other</option>
-                            </select>
+                            <CustomSelect
+                                value={form.type}
+                                onChange={val => setForm({ ...form, type: val })}
+                                options={['Fuel', 'Toll', 'Other']}
+                            />
                         </div>
                     </div>
                     <div className="form-row">
@@ -128,10 +133,14 @@ export default function ExpensesPage() {
                         <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><CalendarDays size={13} />Date</label><input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} required /></div>
                         <div className="form-group">
                             <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Route size={13} />Trip (optional)</label>
-                            <select value={form.tripId} onChange={e => setForm({ ...form, tripId: e.target.value })}>
-                                <option value="">None</option>
-                                {trips.filter(t => (t.vehicleId?._id || t.vehicleId) === form.vehicleId).map(t => <option key={t._id} value={t._id}>{t.origin}→{t.destination}</option>)}
-                            </select>
+                            <CustomSelect
+                                value={form.tripId}
+                                onChange={val => setForm({ ...form, tripId: val })}
+                                options={[
+                                    { value: '', label: 'None' },
+                                    ...trips.filter(t => (t.vehicleId?._id || t.vehicleId) === form.vehicleId).map(t => ({ value: t._id, label: `${t.origin}→${t.destination}` }))
+                                ]}
+                            />
                         </div>
                     </div>
                     <div className="form-actions">

@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import DataTable from '../components/ui/DataTable';
 import StatusPill from '../components/ui/StatusPill';
 import Modal from '../components/ui/Modal';
+import CustomSelect from '../components/ui/CustomSelect';
 import { Plus, CheckCircle, Wrench, Car, Settings, DollarSign, CalendarDays, AlignLeft } from 'lucide-react';
 import './PageCommon.css';
 
@@ -107,18 +108,21 @@ export default function MaintenancePage() {
                 <form onSubmit={handleAdd} className="modal-form">
                     <div className="form-group">
                         <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Car size={13} />Vehicle</label>
-                        <select value={form.vehicleId} onChange={e => setForm({ ...form, vehicleId: e.target.value })} required>
-                            <option value="">Select vehicle...</option>
-                            {nonRetiredVehicles.map(v => <option key={v._id} value={v._id}>{v.name} — {v.licensePlate} ({v.status})</option>)}
-                        </select>
+                        <CustomSelect
+                            value={form.vehicleId}
+                            onChange={val => setForm({ ...form, vehicleId: val })}
+                            options={nonRetiredVehicles.map(v => ({ value: v._id, label: `${v.name} — ${v.licensePlate} (${v.status})` }))}
+                            placeholder="Select vehicle..."
+                        />
                     </div>
                     <div className="form-row">
                         <div className="form-group">
                             <label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Settings size={13} />Service Type</label>
-                            <select value={form.serviceType} onChange={e => setForm({ ...form, serviceType: e.target.value })}>
-                                <option>Oil Change</option><option>Tire Rotation</option><option>Brake Inspection</option>
-                                <option>Engine Repair</option><option>Battery Replacement</option><option>General Service</option><option>Other</option>
-                            </select>
+                            <CustomSelect
+                                value={form.serviceType}
+                                onChange={val => setForm({ ...form, serviceType: val })}
+                                options={['Oil Change', 'Tire Rotation', 'Brake Inspection', 'Engine Repair', 'Battery Replacement', 'General Service', 'Other']}
+                            />
                         </div>
                         <div className="form-group"><label style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><DollarSign size={13} />Cost (₹)</label><input type="number" value={form.cost} onChange={e => setForm({ ...form, cost: e.target.value })} placeholder="Enter cost" required /></div>
                     </div>
